@@ -114,7 +114,7 @@ export default function Slider({ currentIndex }: SliderProps) {
                     return copy;
                 });
             }
-        }, 900);
+        }, 2000); // Increased to 2s for mobile loading
 
         return () => clearTimeout(timer);
     }, [currentIndex]);
@@ -209,9 +209,10 @@ export default function Slider({ currentIndex }: SliderProps) {
                                 className="w-full h-full object-contain block"
                                 src={videoSrc}
                                 playsInline
+                                autoPlay
+                                muted
                                 loop
-                                muted={isMuted[index]}
-                                preload={currentIndex === index ? "metadata" : "none"}
+                                preload={currentIndex === index ? "auto" : "metadata"}
                             />
                             <VideoControls
                                 isPlaying={isPlaying[index]}
