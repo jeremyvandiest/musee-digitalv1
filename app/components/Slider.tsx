@@ -207,13 +207,16 @@ export default function Slider({ currentIndex }: SliderProps) {
                             <video
                                 ref={(el) => { videoRefs.current[index] = el; }}
                                 className="w-full h-full object-contain block"
-                                src={videoSrc}
                                 playsInline
+                                webkit-playsinline="true"
                                 autoPlay
                                 muted
                                 loop
                                 preload={currentIndex === index ? "auto" : "metadata"}
-                            />
+                            >
+                                <source src={videoSrc} type="video/mp4" />
+                                Votre navigateur ne supporte pas la lecture de vidéos.
+                            </video>
                             <VideoControls
                                 isPlaying={isPlaying[index]}
                                 isMuted={isMuted[index]}
