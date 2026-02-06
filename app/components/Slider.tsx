@@ -273,21 +273,21 @@ export default function Slider({ currentIndex }: SliderProps) {
                     artefactNumber: "ARTEFACT 001",
                     title: "Autoportrait Administratif",
                     medium: "GRAPHISME ÉDITORIAL — 2026",
-                    description: "Ce document constitue le point d'entrée de l'exposition. Le curriculum vitae n'est plus un outil fonctionnel, mais un objet culturel normé : une pièce d'archive.\n\nLes codes visuels de l'institution — hiérarchie, lisibilité, neutralité — mettent en évidence la réduction de l'individu à un format standardisé. Les unités habituelles (dates, postes, compétences) deviennent une composition. La lisibilité administrative se mue en lecture muséale.\n\nLe CV devient un autoportrait contraint. L'œuvre pose la question : que reste-t-il d'un individu résumé à une page optimisée pour être triée, puis oubliée."
+                    description: "Ce document constitue le point d'entrée de l'exposition. Le curriculum vitae n'est plus un outil fonctionnel, mais un objet culturel normé : une pièce d'archive.\n\nLes codes de l'institution — hiérarchie, lisibilité, neutralité — mettent en évidence la réduction de l'individu à un format standardisé. Le CV devient un autoportrait contraint. L'œuvre pose la question : que reste-t-il d'un individu résumé à une page optimisée pour être triée, puis oubliée."
                 };
             case 1:
                 return {
                     artefactNumber: "ARTEFACT 002",
                     title: "Fais Exister Ta Marque (FETM)",
                     medium: "FILM MANIFESTE — 2026",
-                    description: "Un film manifeste sur le rôle du Community Manager. Sans mots ni logos, l'œuvre montre comment un produit brut devient désirable par le travail invisible de celui qui lui donne voix, texture et présence.\n\nÀ travers lumière, peau, souffle et tension, le film traduit visuellement la transformation de la matière en émotion. Dans le contexte de l'exposition, le produit devient métaphore du candidat. Rien ne change dans la substance ; tout se joue dans la mise en scène.\n\nL'œuvre affirme que la valeur se crée par le regard et la capacité à générer une perception."
+                    description: "Un film manifeste sur le rôle du Community Manager. Sans mots ni logos, l'œuvre montre comment un produit brut devient désirable par le travail invisible de celui qui lui donne voix et présence.\n\nDans le contexte de l'exposition, le produit devient métaphore du candidat. Rien ne change dans la substance ; tout se joue dans la mise en scène. L'œuvre affirme que la valeur se crée par le regard et la capacité à générer une perception."
                 };
             case 2:
                 return {
                     artefactNumber: "ARTEFACT 003",
                     title: "Immobile",
                     medium: "FILM CONTEMPLATIF — 2026",
-                    description: "« The outside stands still. The inside insists. »\n\nUn homme, filmé en plongée zénithale, demeure parfaitement immobile tandis que le monde continue de se mouvoir et de le contourner. Il traverse différents environnements — administratifs, urbains, naturels — jusqu'à atteindre un espace où son immobilité cesse d'être une anomalie.\n\nLes systèmes humains continuent à fonctionner. Le monde s'adapte, contourne, ignore avec efficacité.\n\nDans la recherche d'emploi, l'immobilité n'est pas une absence d'effort, mais un temps suspendu où l'action ne produit plus de réponse."
+                    description: "« The outside stands still. The inside insists. »\n\nUn homme, filmé en plongée zénithale, demeure parfaitement immobile tandis que le monde continue de se mouvoir et de le contourner. Il traverse différents environnements — administratifs, urbains, naturels — jusqu'à atteindre un espace où son immobilité cesse d'être une anomalie.\n\nDans la recherche d'emploi, l'immobilité n'est pas une absence d'effort, mais un temps suspendu où l'action ne produit plus de réponse."
                 };
             case 3:
                 return {
@@ -300,29 +300,32 @@ export default function Slider({ currentIndex }: SliderProps) {
             case 4:
                 return {
                     artefactNumber: "ARTEFACT 005",
-                    title: "Le Dogme du Succès Imminent",
+                    title: "Le Dogme du Succès",
                     medium: "SÉRIE INSTAGRAM — 2026",
-                    description: "Ce carrousel détourne le format des conseils professionnels sur réseaux sociaux. Là où ce format promet des solutions claires, l'œuvre opère un renversement : elle expose sans résoudre.\n\nChaque slide se présente comme une affiche institutionnelle — typographie élégante, esthétique minimaliste. Sous cette surface rassurante, le texte révèle des injonctions paradoxales adressées au candidat contemporain.\n\nL'œuvre imite et amplifie les codes jusqu'à rendre visibles leurs contradictions internes. Chaque règle contient sa propre limite, dissimulée dans un micro-texte secondaire."
+                    description: "Ce carrousel détourne le format des conseils professionnels sur réseaux sociaux. Là où ce format promet des solutions claires, l'œuvre opère un renversement : elle expose sans résoudre.\n\nChaque slide se présente comme une affiche institutionnelle. Sous cette surface rassurante, le texte révèle des injonctions paradoxales adressées au candidat contemporain. L'œuvre imite et amplifie les codes jusqu'à rendre visibles leurs contradictions internes."
                 };
             case 5:
                 return {
                     artefactNumber: "ARTEFACT 006",
                     title: "ASMR du Ghosting",
                     medium: "VIDÉO SONORE — 2026",
-                    description: "Une exploration sonore du silence institutionnel. L'œuvre documente la dimension acoustique du rituel de candidature : aligner un CV, poser les doigts sur un clavier, survoler une souris, cliquer sur \"Envoyer\", puis attendre.\n\nLa bande-son isole les micro-événements auditifs : froissement de papier, clic de souris, scroll d'inbox vide, notification attendue, silence prolongé.\n\nL'ASMR, habituellement associé au soin, devient ici un langage administratif intime. Le calme n'apaise pas ; il intensifie. Ce que l'on entend n'est pas le silence, mais sa fabrication."
+                    description: "Une exploration sonore du silence institutionnel. L'œuvre documente la dimension acoustique du rituel de candidature : aligner un CV, poser les doigts sur un clavier, cliquer sur \"Envoyer\", puis attendre.\n\nLa bande-son isole les micro-événements auditifs : froissement de papier, clic de souris, scroll d'inbox vide, silence prolongé. L'ASMR devient ici un langage administratif intime. Ce que l'on entend n'est pas le silence, mais sa fabrication"
                 };
             default:
                 return { artefactNumber: "", title: "", medium: "", description: "" };
         }
     };
 
-    const curatorialNotice = `L'installation propose trois protocoles algorithmiques distincts reproduisant les mécaniques du recrutement contemporain.
+    const curatorialNotice = `L'installation propose trois protocoles algorithmiques reproduisant les mécaniques du recrutement contemporain :
 
-Le premier génère une réponse standardisée via IA. Le deuxième archive publiquement la participation sur les réseaux sociaux. Le troisième honore le ghosting absolu : le silence.
+Protocole A — "Optimiser ma candidature"
+Génère une réponse standardisée via IA. Le système produit un texte optimisé, poli, impersonnel.
+Protocole B — "Contourner l'algorithme"
+Archive publiquement la participation sur les réseaux sociaux. La tentative devient visible, documentée, exposée.
+Protocole C — "Envoyer ma donnée dans le vide"
+Honore le ghosting absolu : le silence. Aucune réponse. L'action est enregistrée, puis disparaît.
 
-En détournant les outils de l'automatisation RH — génération de texte, API, tracking — l'œuvre questionne la transformation du candidat en donnée et la fatigue de l'authenticité dans un système qui promet l'efficacité au prix de l'unicité.
-
-La seule différence : ici, le vide assume qu'il est une œuvre.`;
+En détournant les outils de l'automatisation RH, l'œuvre questionne la transformation du candidat en donnée. La seule différence : ici, le vide assume qu'il est une œuvre.`;
 
     const cartelData = getCartelContent(currentIndex);
     const roomLabels = [
