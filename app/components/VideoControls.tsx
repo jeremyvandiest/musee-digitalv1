@@ -1,13 +1,14 @@
 "use client";
 
 import React from "react";
-import { Play, Pause, Volume2, VolumeX } from "lucide-react";
+import { Play, Pause, Volume2, VolumeX, Maximize2 } from "lucide-react";
 
 type VideoControlsProps = {
     isPlaying: boolean;
     isMuted: boolean;
     onTogglePlay: () => void;
     onToggleMute: () => void;
+    onExpand: () => void;
 };
 
 export default function VideoControls({
@@ -15,6 +16,7 @@ export default function VideoControls({
     isMuted,
     onTogglePlay,
     onToggleMute,
+    onExpand,
 }: VideoControlsProps) {
     return (
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-4 z-20">
@@ -52,6 +54,20 @@ export default function VideoControls({
                     ) : (
                         <Volume2 className="w-4 h-4 text-anthracite group-hover:text-white" />
                     )}
+                </button>
+
+                <div className="w-px h-4 bg-anthracite/20"></div>
+
+                {/* EXPAND */}
+                <button
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onExpand();
+                    }}
+                    className="group flex items-center justify-center w-8 h-8 rounded-full hover:bg-anthracite hover:text-white transition-colors focus:outline-none"
+                    aria-label="Agrandir"
+                >
+                    <Maximize2 className="w-4 h-4 text-anthracite group-hover:text-white" />
                 </button>
             </div>
         </div>

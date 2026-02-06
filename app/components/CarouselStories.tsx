@@ -2,12 +2,12 @@
 
 import React, { useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
 import { cn } from "../../lib/utils";
 
-export default function CarouselStories({ className }: { className?: string }) {
+export default function CarouselStories({ className, onExpand }: { className?: string; onExpand?: (src: string) => void }) {
     const [emblaRef, emblaApi] = useEmblaCarousel({
-        loop: false,
+        loop: true,
         align: "center",
         containScroll: "trimSnaps",
         dragFree: false,
@@ -40,7 +40,11 @@ export default function CarouselStories({ className }: { className?: string }) {
         <div className={cn("relative", className)}> {/* Uses external class for size consistency */}
 
             {/* Viewport/Frame - CLEAN LOOK */}
-            <div ref={emblaRef} className="w-full h-full overflow-hidden bg-transparent border-0 ring-0 outline-none">
+            <div
+                ref={emblaRef}
+                className="w-full h-full overflow-hidden bg-transparent border-0 ring-0 outline-none cursor-pointer"
+                onClick={scrollNext}
+            >
                 <div className="flex w-full h-full touch-pan-y">
                     {slides.map((src, index) => (
                         <div

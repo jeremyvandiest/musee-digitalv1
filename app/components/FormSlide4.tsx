@@ -6,17 +6,18 @@ type FormSlide4Props = {
     className?: string;
     selectedChoice: "A" | "B" | "C" | null;
     onSelectChoice: (choice: "A" | "B" | "C") => void;
+    isEmailSubmitted: boolean;
 };
 
-export default function FormSlide4({ className, selectedChoice, onSelectChoice }: FormSlide4Props) {
+export default function FormSlide4({ className, selectedChoice, onSelectChoice, isEmailSubmitted }: FormSlide4Props) {
 
     return (
-        <div className={`relative w-full h-full bg-white/5 border border-anthracite/10 flex flex-col p-6 overflow-hidden ${className}`}>
+        <div className={`relative w-full h-full bg-white/5 border border-anthracite/10 flex flex-col p-4 md:p-6 overflow-hidden ${className}`}>
             {/* Scanner Line Effect */}
             <div className="absolute inset-0 pointer-events-none after:content-[''] after:absolute after:left-0 after:right-0 after:h-px after:bg-cuivre/18 after:animate-scan z-0" />
 
             {/* Content Container */}
-            <div className="relative z-10 flex flex-col justify-between h-full py-4">
+            <div className="relative z-10 flex flex-col justify-between h-full pt-1 pb-4">
 
                 {/* Header */}
                 <div className="text-center">
@@ -34,12 +35,14 @@ export default function FormSlide4({ className, selectedChoice, onSelectChoice }
                     ].map((option) => (
                         <button
                             key={option.id}
+                            disabled={!isEmailSubmitted}
                             onClick={() => onSelectChoice(option.id as any)}
                             className={`w-full flex-1 flex items-center justify-center border rounded-[2px] font-sans text-[18px] md:text-[22px] font-serif transition-all duration-300
                 ${selectedChoice === option.id
                                     ? "bg-anthracite text-white border-anthracite shadow-lg scale-[1.02]"
                                     : "bg-white/40 border-anthracite/20 hover:border-cuivre hover:bg-white text-anthracite"
                                 }
+                ${!isEmailSubmitted ? "opacity-30 cursor-not-allowed grayscale" : ""}
               `}
                         >
                             {option.label}

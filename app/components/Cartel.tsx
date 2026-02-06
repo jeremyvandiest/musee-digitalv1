@@ -32,11 +32,11 @@ export default function Cartel({
                     {medium}
                 </div>
 
-                <hr className="border-t border-line mb-5" />
 
-                <p className="font-sans text-[16px] leading-[1.75] text-ink-warm max-w-[56ch] mb-4 whitespace-pre-line">
-                    {description}
-                </p>
+                <p
+                    className="font-sans text-[16px] leading-[1.75] text-ink-warm max-w-[56ch] mb-4 whitespace-pre-line"
+                    dangerouslySetInnerHTML={{ __html: description }}
+                />
 
                 {children && <div className="mt-8">{children}</div>}
             </div>

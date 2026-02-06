@@ -55,19 +55,13 @@ export default function CartelForm({ selectedChoice, onEmailSubmit, status }: Ca
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full bg-white border border-line rounded-[2px] py-3 px-4 font-sans text-[15px] focus:outline-none focus:border-cuivre focus:ring-2 focus:ring-cuivre focus:ring-offset-1 transition duration-300"
-                    disabled={!selectedChoice} // Disable if no choice selected
                 />
-                {!selectedChoice && (
-                    <p className="text-[10px] text-cuivre mt-2 italic">
-                        * Veuillez d'abord sélectionner un protocole sur l'écran de gauche.
-                    </p>
-                )}
             </div>
 
             {/* ACTION */}
             <button
                 onClick={() => onEmailSubmit(email)}
-                disabled={!email || !selectedChoice || status === "LOADING"}
+                disabled={!email || status === "LOADING"}
                 className="w-full flex items-center justify-center py-3 px-6 bg-transparent border border-anthracite rounded-[2px] font-sans text-[15px] text-anthracite uppercase tracking-wide hover:bg-anthracite hover:text-white transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-cuivre disabled:opacity-50 disabled:cursor-not-allowed"
             >
                 {status === "LOADING" ? (

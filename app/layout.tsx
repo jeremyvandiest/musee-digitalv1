@@ -18,7 +18,7 @@ const crimsonText = Crimson_Text({
 
 export const metadata: Metadata = {
     title: "Musée Digital — Portfolio",
-    description: "Exposition temporaire — Portfolio Digital 2025",
+    description: "Exposition temporaire — Portfolio Digital 2026",
 };
 
 export default function RootLayout({
