@@ -8,6 +8,7 @@ type CartelProps = {
     medium: string;
     description: string;
     children?: ReactNode; // For extra content like form
+    className?: string;
 };
 
 export default function Cartel({
@@ -16,9 +17,10 @@ export default function Cartel({
     medium,
     description,
     children,
+    className,
 }: CartelProps) {
     return (
-        <article className="grain-paper relative bg-blanc-casse border border-line/15 border-l-4 border-l-cuivre rounded-[2px] p-10 max-w-[560px] shadow-paper mx-auto md:mx-0">
+        <article className={`grain-paper relative bg-blanc-casse border border-line/15 border-l-4 border-l-cuivre rounded-[2px] p-10 max-w-[560px] shadow-paper mx-auto md:mx-0 ${className || ""}`}>
             <div className="relative z-10">
                 <div className="font-sans text-[10px] uppercase tracking-widest text-ink-2 mb-6">
                     {artefactNumber}

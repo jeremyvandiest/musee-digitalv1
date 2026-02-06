@@ -365,7 +365,7 @@ En détournant les outils de l'automatisation RH, l'œuvre questionne la transfo
                     >
                         {/* Left Column: Media */}
                         <div className={`flex-1 flex p-2 relative h-full w-full z-10 order-1 md:order-1 
-                            ${currentIndex === 3 ? "md:max-w-[25%] items-center justify-end" : "md:max-w-[45%] items-center justify-end"}`}>
+                            ${currentIndex === 3 ? "md:max-w-[25%] items-start justify-end mt-12 md:mt-16" : "md:max-w-[45%] items-center justify-end"}`}>
                             {getSlideContent(currentIndex)}
                         </div>
 
@@ -377,14 +377,15 @@ En détournant les outils de l'automatisation RH, l'œuvre questionne la transfo
                             ${currentIndex === 3 ? "md:max-w-[70%] items-center justify-center" : "md:max-w-[45%] items-center justify-start"}`}>
 
                             {currentIndex === 3 ? (
-                                <div className="flex flex-col lg:flex-row gap-6 items-start scale-90 lg:scale-[0.8] xl:scale-75 origin-center lg:origin-left">
+                                <div className="flex flex-col lg:flex-row gap-6 items-stretch scale-90 lg:scale-[0.8] xl:scale-75 origin-top-left">
                                     {/* CARTEL 1 */}
-                                    <div className="flex-shrink-0">
+                                    <div className="flex-shrink-0 flex">
                                         <Cartel
                                             artefactNumber={cartelData.artefactNumber}
                                             title={cartelData.title}
                                             medium={cartelData.medium}
                                             description={cartelData.description}
+                                            className="h-full"
                                         >
                                             <CartelForm
                                                 selectedChoice={formChoice}
@@ -395,12 +396,13 @@ En détournant les outils de l'automatisation RH, l'œuvre questionne la transfo
                                     </div>
 
                                     {/* CARTEL 2 (Curatorial Notice) */}
-                                    <div className="flex-shrink-0">
+                                    <div className="flex-shrink-0 flex">
                                         <Cartel
                                             artefactNumber="NOTICE CURATORIALE"
                                             title="Le Texte Optimisé"
                                             medium="INSTALLATION INTERACTIVE, AUTOMATISATION IA — 2026"
                                             description={curatorialNotice}
+                                            className="h-full"
                                         />
                                     </div>
                                 </div>
