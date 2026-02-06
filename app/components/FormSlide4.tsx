@@ -26,7 +26,7 @@ export default function FormSlide4({ className, selectedChoice, onSelectChoice }
                 </div>
 
                 {/* --- INTERACTIVE BUTTONS --- */}
-                <div className="flex flex-col gap-4 my-auto w-full h-full justify-center">
+                <div className="flex flex-col gap-4 my-auto w-full h-full justify-center px-4 md:px-8">
                     {[
                         { id: "A", label: "Optimiser" },
                         { id: "B", label: "Algorithme" },
