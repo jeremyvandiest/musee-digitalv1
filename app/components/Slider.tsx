@@ -120,10 +120,10 @@ export default function Slider({ currentIndex }: SliderProps) {
     // --- DATA ---
     const getSlideContent = (index: number) => {
         // Wrapper styles common to media - Top aligned with tight padding
-        const mediaWrapperClass = "relative w-full h-full flex items-start justify-center bg-paper-warm p-2 pt-2 md:pt-4 overflow-hidden";
+        const mediaWrapperClass = "relative w-full h-full flex items-start justify-center p-2 pt-2 md:pt-4 overflow-hidden";
 
         // Sizing: same aspect, constrained width. Added border/shadow for consistent "encadrement"
-        const mediaFrameBase = "relative w-full max-w-[500px] xl:max-w-[560px] aspect-[9/16] h-auto max-h-[calc(100vh-var(--topbar-height)-var(--bottombar-height)-60px)] transition-all duration-500 overflow-hidden border border-line/10 shadow-paper bg-white/5";
+        const mediaFrameBase = "relative w-full max-w-[500px] xl:max-w-[560px] aspect-[9/16] h-auto max-h-[calc(100vh-var(--topbar-height)-var(--bottombar-height)-60px)] transition-all duration-500 overflow-hidden";
 
         switch (index) {
             case 0: // Slide 1: CV (Image) - Oeuvre1.png
@@ -184,7 +184,7 @@ export default function Slider({ currentIndex }: SliderProps) {
             case 3: // Slide 4: System (Form) - SAME 9:16 FRAME
                 return (
                     // On mobile, stick to items-center (standard). On desktop, items-start (top align).
-                    <div className={`relative w-full h-full flex ${index === 3 ? "items-start pt-0 mt-0" : "items-start pt-4 md:pt-8"} justify-center bg-paper-warm p-2 overflow-hidden`}>
+                    <div className={`relative w-full h-full flex ${index === 3 ? "items-start pt-0 mt-0" : "items-start pt-0"} justify-center p-2 overflow-hidden`}>
                         {/* Pass class for consistent sizing */}
                         <FormSlide4
                             className={`${mediaFrameBase}`}
