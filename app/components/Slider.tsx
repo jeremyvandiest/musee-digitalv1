@@ -273,43 +273,43 @@ export default function Slider({ currentIndex }: SliderProps) {
                     artefactNumber: "ARTEFACT 001",
                     title: "Autoportrait Administratif",
                     medium: "GRAPHISME ÉDITORIAL — 2026",
-                    description: "Un curriculum vitae transformé en œuvre graphique. La donnée administrative devient forme visuelle, le parcours professionnel devient récit contemplatif."
+                    description: "Ce document constitue le point d'entrée de l'exposition. Présenté comme une œuvre graphique, le curriculum vitae n'est plus un outil fonctionnel, mais un objet culturel normé : une pièce d'archive.\n\nLes codes visuels de l'institution — hiérarchie, lisibilité, neutralité — mettent en évidence la réduction de l'individu à un format standardisé. Les unités habituelles (dates, postes, compétences) deviennent une composition. La lisibilité administrative se mue en lecture muséale.\n\nLe CV devient un autoportrait contraint, où l'identité personnelle se plie à une structure préexistante. L'œuvre pose la question centrale : que reste-t-il d'un individu lorsqu'il est résumé à une page optimisée pour être triée, filtrée, puis oubliée."
                 };
             case 1:
                 return {
                     artefactNumber: "ARTEFACT 002",
-                    title: "Titre Œuvre 2",
-                    medium: "VIDÉO — 2026",
-                    description: "Description œuvre 2 - placeholder contemplation."
+                    title: "Fais Exister Ta Marque (FETM)",
+                    medium: "FILM MANIFESTE, 9:16, 30 SECONDES — 2026",
+                    description: "Un film manifeste qui valorise le rôle du Community Manager dans l'univers des compléments alimentaires. Sans mots ni logos, l'œuvre montre comment un produit brut, invisible, devient désirable par le travail invisible de celui qui lui donne une voix, une texture et une présence.\n\nÀ travers la lumière, la peau, le souffle et la tension, le film traduit visuellement la transformation de la matière en émotion. Dans le contexte de l'exposition, le produit devient métaphore du candidat. Rien ne change dans la substance ; tout se joue dans la manière de le rendre visible, sensible, désirable.\n\nl'œuvre affirme que la valeur ne se crée pas uniquement par le contenu, mais par le regard et la capacité à générer une perception."
                 };
             case 2:
                 return {
                     artefactNumber: "ARTEFACT 003",
-                    title: "Titre Œuvre 3",
-                    medium: "VIDÉO — 2026",
-                    description: "Description œuvre 3 - placeholder."
+                    title: "Immobile",
+                    medium: "FILM CONTEMPLATIF, 9:16, 90 SECONDES — 2026",
+                    description: "« The outside stands still. The inside insists. »\n\nUn homme, filmé strictement en plongée zénithale, demeure parfaitement immobile tandis que le monde autour de lui continue de se mouvoir, de s'organiser et de le contourner. Sans jamais bouger, il traverse différents environnements — administratifs, urbains, naturels — jusqu'à atteindre un espace élémentaire où son immobilité cesse d'être une anomalie pour devenir une position assumée.\n\nL'œuvre met en tension l'immobilité intérieure et le mouvement extérieur. Les systèmes humains — files d'attente, espaces de travail, circulation urbaine — continuent à fonctionner malgré cette anomalie. Le monde ne s'arrête pas. Il s'adapte. Il contourne. Il ignore avec efficacité.\n\nDans le cadre de la recherche d'emploi, l'immobilité n'est pas une absence d'effort, mais un temps suspendu, où l'action ne produit plus de réponse."
                 };
             case 3:
                 return {
                     artefactNumber: "ARTEFACT 004",
                     title: "Système de Ghosting Automatisé",
                     medium: "INSTALLATION INTERACTIVE — 2026",
-                    description: "Vous êtes invité à participer à cette œuvre critique en sélectionnant votre protocole d'interaction avec le système algorithmique. Chaque choix déclenche une réaction invisible et archivée.",
+                    description: "Vous êtes invité à participer à cette œuvre critique en sélectionnant votre protocole d'interaction avec le système algorithmique. Chaque choix déclenche une réaction invisible et archivée.\n\nTRANSMISSION\nVeuillez d'abord sélectionner un protocole sur l'écran de gauche.",
                     hasForm: true
                 };
             case 4:
                 return {
                     artefactNumber: "ARTEFACT 005",
-                    title: "Propagande Douce",
-                    medium: "SÉRIE INSTAGRAM, 6 CARROUSELS SÉLECTIONNÉS — 2026",
-                    description: "Déconstruction des injonctions paradoxales de la recherche d'emploi contemporaine. Chaque carrousel démonte un conseil toxique en utilisant l'esthétique même du discours motivationnel. Série complète : 14 affiches."
+                    title: "Le Dogme du Succès Imminent",
+                    medium: "ŒUVRE SÉQUENTIELLE NUMÉRIQUE, 6 CARROUSELS SÉLECTIONNÉS — 2065",
+                    description: "Ce carrousel numérique détourne un format devenu central dans l'écosystème des réseaux sociaux : le carrousel de conseils, d'astuces et de règles implicites censées guider la réussite professionnelle.\n\nlà où ce format promet habituellement des solutions claires, l'œuvre opère un renversement : elle n'explique rien, ne résout rien, mais expose. Chaque slide se présente comme une affiche institutionnelle — typographie élégante, esthétique minimaliste, images calmes et maîtrisées. Sous cette surface rassurante, le texte révèle une série d'injonctions paradoxales adressées au candidat contemporain.\n\nl'œuvre ne critique pas frontalement. Elle imite, rejoue, amplifie les codes jusqu'à en rendre visibles les contradictions internes. Chaque slide énonce une règle. Chaque règle contient sa propre limite. Chaque limite est dissimulée dans un micro-texte, presque secondaire.\n\nLe carrousel devient ici une machine à injonctions positives, présentée en boucle comme un cycle sans fin."
                 };
             case 5:
                 return {
                     artefactNumber: "ARTEFACT 006",
                     title: "ASMR du Ghosting",
-                    medium: "VIDÉO SONORE, 90 SECONDES — 2026",
-                    description: "Une installation vidéo ASMR explorant la dimension sonore du silence algorithmique dans les processus de recrutement automatisés. Chaque geste méticuleux devient rituel d'attente suspendue."
+                    medium: "VIDÉO SONORE, 9:16, 90 SECONDES — 2026",
+                    description: "Une exploration sonore du silence institutionnel. L'œuvre documente la dimension acoustique du rituel de candidature à travers une série de gestes précis, minutieux, presque rituels : aligner un CV sur une table, poser les doigts sur un clavier, survoler une souris, cliquer sur \"Envoyer\", puis attendre.\n\nLa bande-son isole et amplifie les micro-événements auditifs de la recherche d'emploi : le froissement d'une lettre de motivation imprimée, le clic de souris au moment de l'envoi, le scroll d'une boîte mail vide, le son étouffé d'une notification qui n'est pas celle attendue, le silence compact d'une attente prolongée.\n\nL'ASMR, habituellement associé au soin et à la détente, devient ici un langage administratif intime. Le calme n'apaise pas ; il intensifie. Ce que l'on entend n'est pas le silence — mais sa fabrication : le frottement des procédures, la douceur des interfaces, et la persistance d'un signal sans réponse.\n\nLe montage transforme les gestes bureaucratiques en partition sonore — une chorégraphie auditive de l'espoir répété et du silence algorithmique."
                 };
             default:
                 return { artefactNumber: "", title: "", medium: "", description: "" };

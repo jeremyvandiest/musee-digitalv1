@@ -32,7 +32,7 @@ export default function Cartel({
 
                 <hr className="border-t border-line mb-5" />
 
-                <p className="font-sans text-[16px] leading-[1.75] text-ink-warm max-w-[56ch] mb-4">
+                <p className="font-sans text-[16px] leading-[1.75] text-ink-warm max-w-[56ch] mb-4 whitespace-pre-line">
                     {description}
                 </p>
 
