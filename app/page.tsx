@@ -67,32 +67,16 @@ export default function Home() {
                             </p>
                         </div>
 
-                        {/* COLONNE 2 : NOTICE CURATORIALE (ARTEFACT 004) */}
+                        {/* COLONNE 2 : ORIGINE */}
                         <div>
                             <h3 className="font-sans text-[10px] uppercase text-ink-2 mb-4 tracking-widest">
-                                NOTICE D'INSTALLATION
+                                ORIGINE DU PROJET
                             </h3>
-                            <div className="font-sans text-[14px] font-bold text-anthracite mb-1 uppercase tracking-tight">
-                                Le Texte Optimisé (La Fatigue de l'Authenticité)
-                            </div>
-                            <div className="font-sans text-[10px] uppercase text-ink-2 mb-4 tracking-widest">
-                                INSTALLATION INTERACTIVE, AUTOMATISATION IA — 2026
-                            </div>
-                            <p className="font-sans text-[14px] leading-[1.6] text-ink-warm max-w-[56ch] whitespace-pre-line">
-                                L'installation propose trois protocoles algorithmiques distincts, chacun reproduisant une mécanique du système de recrutement contemporain.
-                                {"\n\n"}
-                                <span className="text-anthracite font-medium">Protocole A — "Optimiser ma candidature"</span>
-                                {"\n"}Génère une réponse standardisée via intelligence artificielle. Le système produit un texte optimisé, poli, impersonnel — exactement comme le ferait un algorithme de recrutement corporate.
-                                {"\n\n"}
-                                <span className="text-anthracite font-medium">Protocole B — "Contourner l'algorithme"</span>
-                                {"\n"}Archive publiquement la tentative sur les réseaux sociaux. La participation devient visible, documentée, exposée — transformant l'acte privé de candidature en donnée sociale consultable.
-                                {"\n\n"}
-                                <span className="text-anthracite font-medium">Protocole C — "Envoyer ma donnée dans le vide"</span>
-                                {"\n"}Honore le ghosting dans sa forme absolue : le silence. Aucune réponse. Aucun accusé de réception. L'action est enregistrée, puis disparaît dans le système sans retour.
-                                {"\n\n"}
-                                En détournant les outils de l'automatisation RH — génération de texte, API, tracking — l'œuvre questionne la transformation du candidat en donnée et la fatigue de l'authenticité dans un système qui promet l'efficacité au prix de l'unicité.
-                                {"\n\n"}
-                                La seule différence avec le vrai système : ici, le vide assume qu'il est une œuvre.
+                            <p className="font-sans text-[16px] leading-[1.75] text-ink-warm max-w-[56ch]">
+                                Ce musée digital transforme l'acte de candidature en exposition
+                                critique. Chaque artefact explore un mécanisme du système de
+                                recrutement contemporain : algorithmes, ghosting institutionnel,
+                                injonctions paradoxales, invisibilité administrative.
                             </p>
                         </div>
 

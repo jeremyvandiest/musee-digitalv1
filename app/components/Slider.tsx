@@ -316,6 +316,21 @@ export default function Slider({ currentIndex }: SliderProps) {
         }
     };
 
+    const curatorialNotice = `L'installation propose trois protocoles algorithmiques distincts, chacun reproduisant une mécanique du système de recrutement contemporain.
+
+Protocole A — "Optimiser ma candidature"
+Génère une réponse standardisée via intelligence artificielle. Le système produit un texte optimisé, poli, impersonnel — exactement comme le ferait un algorithme de recrutement corporate.
+
+Protocole B — "Contourner l'algorithme"
+Archive publiquement la tentative sur les réseaux sociaux. La participation devient visible, documentée, exposée — transformant l'acte privé de candidature en donnée sociale consultable.
+
+Protocole C — "Envoyer ma donnée dans le vide"
+Honore le ghosting dans sa forme absolue : le silence. Aucune réponse. Aucun accusé de réception. L'action est enregistrée, puis disparaît dans le système sans retour.
+
+En détournant les outils de l'automatisation RH — génération de texte, API, tracking — l'œuvre questionne la transformation du candidat en donnée et la fatigue de l'authenticité dans un système qui promet l'efficacité au prix de l'unicité.
+
+La seule différence avec le vrai système : ici, le vide assume qu'il est une œuvre.`;
+
     const cartelData = getCartelContent(currentIndex);
     const roomLabels = [
         "SALLE 01 — ADMINISTRATION",
@@ -362,26 +377,46 @@ export default function Slider({ currentIndex }: SliderProps) {
                         {/* Mobile Divider */}
                         <div className="md:hidden w-full h-px bg-line my-0 mx-6 opacity-30 order-2" />
 
-                        {/* Right Column: Cartel */}
-                        <div className={`flex-1 flex p-6 md:p-10 z-10 order-3 md:order-2 w-full md:max-w-[45%]
-                            ${currentIndex === 3 ? "items-center justify-start md:items-start md:justify-start" : "items-center justify-start"}`}>
-                            {/* Scale down Cartel for Slide 4 to 75% */}
-                            <div className={`${currentIndex === 3 ? "scale-75 origin-top-left" : ""}`}>
+                        {/* Right Column: Cartel(s) */}
+                        <div className={`flex-1 flex p-6 md:p-10 z-10 order-3 md:order-2 w-full 
+                            ${currentIndex === 3 ? "md:max-w-[60%] items-start justify-start" : "md:max-w-[45%] items-center justify-start"}`}>
+
+                            {currentIndex === 3 ? (
+                                <div className="flex flex-col lg:flex-row gap-6 items-start scale-90 lg:scale-[0.8] xl:scale-75 origin-top-left">
+                                    {/* CARTEL 1 */}
+                                    <div className="flex-shrink-0">
+                                        <Cartel
+                                            artefactNumber={cartelData.artefactNumber}
+                                            title={cartelData.title}
+                                            medium={cartelData.medium}
+                                            description={cartelData.description}
+                                        >
+                                            <CartelForm
+                                                selectedChoice={formChoice}
+                                                onEmailSubmit={handleFormSubmit}
+                                                status={formStatus}
+                                            />
+                                        </Cartel>
+                                    </div>
+
+                                    {/* CARTEL 2 (Curatorial Notice) */}
+                                    <div className="flex-shrink-0">
+                                        <Cartel
+                                            artefactNumber="NOTICE CURATORIALE"
+                                            title="Le Texte Optimisé"
+                                            medium="INSTALLATION INTERACTIVE, AUTOMATISATION IA — 2026"
+                                            description={curatorialNotice}
+                                        />
+                                    </div>
+                                </div>
+                            ) : (
                                 <Cartel
                                     artefactNumber={cartelData.artefactNumber}
                                     title={cartelData.title}
                                     medium={cartelData.medium}
                                     description={cartelData.description}
-                                >
-                                    {currentIndex === 3 && (
-                                        <CartelForm
-                                            selectedChoice={formChoice}
-                                            onEmailSubmit={handleFormSubmit}
-                                            status={formStatus}
-                                        />
-                                    )}
-                                </Cartel>
-                            </div>
+                                />
+                            )}
                         </div>
                     </motion.div>
                 </AnimatePresence>
