@@ -239,7 +239,7 @@ export default function Slider({ currentIndex }: SliderProps) {
             case 3: // Slide 4: System (Form) - SAME 9:16 FRAME
                 return (
                     // On mobile, stick to items-center (standard). On desktop, items-start (top align).
-                    <div className={`relative w-full h-full flex ${index === 3 ? "items-center md:items-start pt-0" : "items-center"} justify-center bg-paper-warm p-2 overflow-hidden`}>
+                    <div className="relative w-full h-full flex items-center justify-center bg-paper-warm p-2 overflow-hidden">
                         <span className="absolute top-4 left-4 md:top-8 md:left-8 text-[10px] text-ink-2 tracking-widest z-10">
                             04/06
                         </span>
@@ -278,7 +278,7 @@ export default function Slider({ currentIndex }: SliderProps) {
             case 1:
                 return {
                     artefactNumber: "ARTEFACT 002",
-                    title: "Fais Exister Ta Marque (FETM)",
+                    title: "Fais Exister Ta Marque",
                     medium: "FILM MANIFESTE — 2026",
                     description: "Un film manifeste sur le rôle du Community Manager. Sans mots ni logos, l'œuvre montre comment un produit brut devient désirable par le travail invisible de celui qui lui donne voix et présence.\n\nDans le contexte de l'exposition, le produit devient métaphore du candidat. Rien ne change dans la substance ; tout se joue dans la mise en scène. L'œuvre affirme que la valeur se crée par le regard et la capacité à générer une perception."
                 };
@@ -377,7 +377,7 @@ En détournant les outils de l'automatisation RH, l'œuvre questionne la transfo
                             ${currentIndex === 3 ? "md:max-w-[70%] items-center justify-center" : "md:max-w-[45%] items-center justify-start"}`}>
 
                             {currentIndex === 3 ? (
-                                <div className="flex flex-col lg:flex-row gap-6 items-start scale-90 lg:scale-[0.8] xl:scale-75 origin-top-left">
+                                <div className="flex flex-col lg:flex-row gap-6 items-start scale-90 lg:scale-[0.8] xl:scale-75 origin-center lg:origin-left">
                                     {/* CARTEL 1 */}
                                     <div className="flex-shrink-0">
                                         <Cartel
