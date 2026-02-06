@@ -309,7 +309,7 @@ export default function Slider({ currentIndex }: SliderProps) {
                     artefactNumber: "ARTEFACT 006",
                     title: "ASMR du Ghosting",
                     medium: "VIDÉO SONORE — 2026",
-                    description: "Une exploration sonore du silence institutionnel. L'œuvre documente la dimension acoustique du rituel de candidature : aligner un CV, poser les doigts sur un clavier, survoler une souris, cliquer sur \"Envoyer\", puis attendre.\n\nLa bande-son isole les micro-événements auditifs : froissement de papier, clic de souris, scroll d'inbox vide, notification attendue, silence prolongé.\n\nL'ASMR, habituellement associé au soin, devient ici un langage administratif intime. Le calme n'apaise pas ; il intensifie. Ce que l'on entend n'est pas le silence, mais sa fabrication"
+                    description: "Une exploration sonore du silence institutionnel. L'œuvre documente la dimension acoustique du rituel de candidature : aligner un CV, poser les doigts sur un clavier, survoler une souris, cliquer sur \"Envoyer\", puis attendre.\n\nLa bande-son isole les micro-événements auditifs : froissement de papier, clic de souris, scroll d'inbox vide, notification attendue, silence prolongé.\n\nL'ASMR, habituellement associé au soin, devient ici un langage administratif intime. Le calme n'apaise pas ; il intensifie. Ce que l'on entend n'est pas le silence, mais sa fabrication."
                 };
             default:
                 return { artefactNumber: "", title: "", medium: "", description: "" };
@@ -358,12 +358,11 @@ La seule différence : ici, le vide assume qu'il est une œuvre.`;
                         exit={{ opacity: 0, scale: 0.98 }}
                         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                         // Force items-center on mobile to avoid jumping. Only md:items-start for index 3.
-                        className={`flex flex-col md:flex-row w-full h-full max-w-[1200px] mx-auto gap-4 md:gap-8 lg:gap-12 
-                  ${currentIndex === 3 ? "items-center justify-center md:items-start" : "items-center justify-center"}`}
+                        className="flex flex-col md:flex-row w-full h-full max-w-[1200px] mx-auto gap-4 md:gap-8 lg:gap-12 items-center justify-center"
                     >
                         {/* Left Column: Media */}
                         <div className={`flex-1 flex p-2 relative h-full w-full z-10 order-1 md:order-1 
-                            ${currentIndex === 3 ? "md:max-w-[30%] items-center justify-end md:items-start md:justify-end md:mt-16" : "md:max-w-[45%] items-center justify-end"}`}>
+                            ${currentIndex === 3 ? "md:max-w-[25%] items-center justify-end" : "md:max-w-[45%] items-center justify-end"}`}>
                             {getSlideContent(currentIndex)}
                         </div>
 
@@ -372,7 +371,7 @@ La seule différence : ici, le vide assume qu'il est une œuvre.`;
 
                         {/* Right Column: Cartel(s) */}
                         <div className={`flex-1 flex p-6 md:p-10 z-10 order-3 md:order-2 w-full 
-                            ${currentIndex === 3 ? "md:max-w-[65%] items-start justify-start" : "md:max-w-[45%] items-center justify-start"}`}>
+                            ${currentIndex === 3 ? "md:max-w-[70%] items-center justify-center" : "md:max-w-[45%] items-center justify-start"}`}>
 
                             {currentIndex === 3 ? (
                                 <div className="flex flex-col lg:flex-row gap-6 items-start scale-90 lg:scale-[0.8] xl:scale-75 origin-top-left">
