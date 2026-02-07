@@ -222,9 +222,9 @@ export default function Slider({ currentIndex, expandedMedia, setExpandedMedia }
             case 0:
                 return {
                     artefactNumber: roomLabels[0],
-                    title: "Autoportrait Administratif",
-                    medium: "GRAPHISME ÉDITORIAL — 2026",
-                    description: "Ce document constitue le point d'entrée de l'exposition. Le curriculum vitae n'est plus un outil fonctionnel, mais un objet culturel normé : une pièce d'archive.\n\nLes codes de l'institution — hiérarchie, lisibilité, neutralité — mettent en évidence la réduction de l'individu à un format standardisé. Le CV devient un autoportrait contraint. L'œuvre pose la question : que reste-t-il d'un individu résumé à une page optimisée pour être triée, puis oubliée."
+                    title: "Autoportrait administratif",
+                    medium: "Graphisme éditorial — 2026",
+                    description: "Ce document constitue le point d’entrée de l’exposition.\nLe curriculum vitae y apparaît comme un artefact institutionnel : un format normé dans lequel l’individu tente de se raconter.\n\nBien que chargé de signes personnels — image, vocabulaire, esthétique — le document demeure soumis aux codes de l’administration : hiérarchie, lisibilité, conformité.\nLa singularité y est tolérée, mais contenue.\n\nLe CV devient ainsi un autoportrait sous contrainte : une tentative d’exister dans un cadre conçu pour classer, filtrer, archiver.\n\nL’œuvre interroge ce paradoxe :\nque reste-t-il d’un individu lorsqu’il doit se raconter et se vendre dans un format destiné à l’évaluer."
                 };
             case 1:
                 return {
