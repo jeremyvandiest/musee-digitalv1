@@ -179,6 +179,13 @@ export default function Home() {
                             </a>
                         ))}
                         <a
+                            href="/cv-jeremy-vandiest.pdf"
+                            target="_blank"
+                            className="font-sans text-[11px] uppercase text-ink-2 hover:text-cuivre hover:underline tracking-[0.2em] transition-colors"
+                        >
+                            CV
+                        </a>
+                        <a
                             href="mailto:jeremyvandiest.prod@gmail.com"
                             className="font-sans text-[11px] uppercase text-ink-2 hover:text-cuivre hover:underline tracking-[0.2em] transition-colors"
                         >

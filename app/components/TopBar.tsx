@@ -10,9 +10,9 @@ export default function TopBar() {
                 <h1 className="font-sans text-[14px] font-normal uppercase tracking-widest text-anthracite leading-tight">
                     Musée Digital
                 </h1>
-                <span className="font-sans text-[10px] uppercase tracking-widest text-ink-2 mt-1">
-                    Exposition Temporaire — Portfolio de Jérémy Van Diest
-                </span>
+                <p className="text-[9px] font-sans uppercase tracking-wide text-ink-2 mt-1 opacity-70">
+                    Portfolio interactif — Direction artistique & Community Management
+                </p>
             </div>
 
             {/* CENTRE - Vide */}

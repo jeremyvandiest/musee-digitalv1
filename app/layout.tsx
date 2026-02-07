@@ -17,8 +17,13 @@ const crimsonText = Crimson_Text({
 });
 
 export const metadata: Metadata = {
-    title: "Musée Digital — Portfolio",
-    description: "Exposition temporaire — Portfolio Digital 2026",
+    title: 'Musée Digital — Portfolio',
+    description: 'Jérémy Van Diest — Direction artistique digitale, community management & production de contenus pour marques premium. Portfolio interactif & candidature critique.',
+    openGraph: {
+        title: 'Musée Digital — Portfolio',
+        description: 'Direction artistique digitale, community management & production de contenus pour marques premium.',
+        type: 'website',
+    },
 };
 
 export default function RootLayout({
