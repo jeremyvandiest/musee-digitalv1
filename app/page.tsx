@@ -8,6 +8,7 @@ import { MoveUpRight } from "lucide-react";
 
 export default function Home() {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [expandedMedia, setExpandedMedia] = useState<{ type: "image" | "video"; src: string } | null>(null);
     const totalSlides = 6;
 
     const handleNext = () => {
@@ -20,6 +21,13 @@ export default function Home() {
         if (currentIndex > 0) {
             setCurrentIndex((prev) => prev - 1);
         }
+    };
+
+    const handleCVClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        setCurrentIndex(0);
+        setExpandedMedia({ type: "image", src: "/Oeuvre1.png" });
+        window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
     // Keyboard navigation
@@ -43,7 +51,11 @@ export default function Home() {
 
             {/* SECTION MUSÉE: Standard min-h-full */}
             <section className="min-h-screen relative flex flex-col">
-                <Slider currentIndex={currentIndex} />
+                <Slider
+                    currentIndex={currentIndex}
+                    expandedMedia={expandedMedia}
+                    setExpandedMedia={setExpandedMedia}
+                />
             </section>
 
             {/* SECTION ARCHIVES: Standard min-h-screen */}
@@ -169,21 +181,36 @@ export default function Home() {
 
                     {/* FOOTER */}
                     <div className="mt-32 pt-10 border-t border-line/10 flex flex-wrap justify-center gap-x-12 gap-y-6">
-                        {["LINKEDIN", "BEHANCE"].map((link) => (
-                            <a
-                                key={link}
-                                href="#"
-                                className="font-sans text-[11px] uppercase text-ink-2 hover:text-cuivre hover:underline tracking-[0.2em] transition-colors"
-                            >
-                                {link}
-                            </a>
-                        ))}
                         <a
-                            href="/cv-jeremy-vandiest.pdf"
-                            target="_blank"
+                            href="#"
+                            onClick={handleCVClick}
                             className="font-sans text-[11px] uppercase text-ink-2 hover:text-cuivre hover:underline tracking-[0.2em] transition-colors"
                         >
                             CV
+                        </a>
+                        <a
+                            href="https://www.facebook.com/jeremy.vandiest?locale=fr_FR"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-sans text-[11px] uppercase text-ink-2 hover:text-cuivre hover:underline tracking-[0.2em] transition-colors"
+                        >
+                            Facebook
+                        </a>
+                        <a
+                            href="https://www.instagram.com/jeremyvandiest/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-sans text-[11px] uppercase text-ink-2 hover:text-cuivre hover:underline tracking-[0.2em] transition-colors"
+                        >
+                            Instagram
+                        </a>
+                        <a
+                            href="https://www.linkedin.com/in/j%C3%A9r%C3%A9my-van-diest-3945b1215/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-sans text-[11px] uppercase text-ink-2 hover:text-cuivre hover:underline tracking-[0.2em] transition-colors"
+                        >
+                            Linkedin
                         </a>
                         <a
                             href="mailto:jeremyvandiest.prod@gmail.com"

@@ -25,9 +25,11 @@ type SlideData = {
 
 type SliderProps = {
     currentIndex: number;
+    expandedMedia: { type: "image" | "video"; src: string } | null;
+    setExpandedMedia: (media: { type: "image" | "video"; src: string } | null) => void;
 };
 
-export default function Slider({ currentIndex }: SliderProps) {
+export default function Slider({ currentIndex, expandedMedia, setExpandedMedia }: SliderProps) {
     const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
     const [isPlaying, setIsPlaying] = useState<boolean[]>([false, false, false, false, false, false]);
     const [isMuted, setIsMuted] = useState<boolean[]>([false, false, false, false, false, false]);
@@ -36,9 +38,6 @@ export default function Slider({ currentIndex }: SliderProps) {
     const [formChoice, setFormChoice] = useState<"A" | "B" | "C" | null>(null);
     const [formStatus, setFormStatus] = useState<"IDLE" | "LOADING" | "SUCCESS" | "ERROR">("IDLE");
     const [isEmailSubmitted, setIsEmailSubmitted] = useState(false);
-
-    // Lightbox State
-    const [expandedMedia, setExpandedMedia] = useState<{ type: "image" | "video", src: string } | null>(null);
 
     const handleFormSubmit = async (email: string) => {
         setFormStatus("LOADING");
