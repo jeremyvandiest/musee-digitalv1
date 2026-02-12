@@ -35,16 +35,72 @@ export default function Slider({ currentIndex, expandedMedia, setExpandedMedia }
     const [isMuted, setIsMuted] = useState<boolean[]>([false, false, false, false, false, false]);
 
     // --- FORM STATE (Lifted) ---
-    const [formChoice, setFormChoice] = useState<"A" | "B" | "C" | null>(null);
+    const [formChoices, setFormChoices] = useState<("A" | "B" | "C")[]>([]);
     const [formStatus, setFormStatus] = useState<"IDLE" | "LOADING" | "SUCCESS" | "ERROR">("IDLE");
     const [isEmailSubmitted, setIsEmailSubmitted] = useState(false);
 
+    const [submittedEmail, setSubmittedEmail] = useState("");
+
     const handleFormSubmit = async (email: string) => {
         setFormStatus("LOADING");
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        setFormStatus("SUCCESS");
-        setIsEmailSubmitted(true);
+        try {
+            const response = await fetch("/api/participate", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email,
+                    action: "UNLOCK",
+                    timestamp: new Date().toISOString(),
+                    project: "Musée Digital"
+                }),
+            });
+
+            if (response.ok) {
+                setFormStatus("SUCCESS");
+                setIsEmailSubmitted(true);
+                setSubmittedEmail(email);
+            } else {
+                setFormStatus("ERROR");
+            }
+        } catch (error) {
+            console.error("Submission error:", error);
+            setFormStatus("ERROR");
+        }
+    };
+
+    const handleChoiceSelect = async (choice: "A" | "B" | "C") => {
+        if (formChoices.includes(choice)) return;
+
+        setFormChoices((prev) => [...prev, choice]);
+
+        // Map choice for Make.com routing
+        const protocolMap = {
+            "A": "optimize",
+            "B": "bypass",
+            "C": "void"
+        };
+
+        // Each choice click sends a command to Make.com
+        try {
+            await fetch("/api/participate", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: submittedEmail,
+                    choice: choice,
+                    protocol: protocolMap[choice],
+                    action: "EXECUTE",
+                    timestamp: new Date().toISOString(),
+                    project: "Musée Digital"
+                }),
+            });
+        } catch (error) {
+            console.error("Choice submission error:", error);
+        }
     };
 
     // --- LOGIC: Video Handling ---
@@ -187,8 +243,8 @@ export default function Slider({ currentIndex, expandedMedia, setExpandedMedia }
                         {/* Pass class for consistent sizing */}
                         <FormSlide4
                             className={`${mediaFrameBase}`}
-                            selectedChoice={formChoice}
-                            onSelectChoice={setFormChoice}
+                            selectedChoices={formChoices}
+                            onSelectChoice={handleChoiceSelect}
                             isEmailSubmitted={isEmailSubmitted}
                         />
                     </div>
@@ -211,7 +267,7 @@ export default function Slider({ currentIndex, expandedMedia, setExpandedMedia }
     const roomLabels = [
         "SALLE 01 — ADMINISTRATION",
         "SALLE 02 — PRÉSENCE",
-        "SALLE 03 — IMMOBILITÉ",
+        "SALLE 03 — INVISIBILITÉ",
         "SALLE 04 — SYSTÈME",
         "SALLE 05 — INJONCTIONS",
         "SALLE 06 — ARCHÉOLOGIE SONORE"
@@ -224,21 +280,21 @@ export default function Slider({ currentIndex, expandedMedia, setExpandedMedia }
                     artefactNumber: roomLabels[0],
                     title: "Autoportrait administratif",
                     medium: "Graphisme éditorial — 2026",
-                    description: "Ce document constitue le point d’entrée de l’exposition.\nLe curriculum vitae y apparaît comme un artefact institutionnel : un format normé dans lequel l’individu tente de se raconter.\n\nBien que chargé de signes personnels — image, vocabulaire, esthétique — le document demeure soumis aux codes de l’administration : hiérarchie, lisibilité, conformité.\nLa singularité y est tolérée, mais contenue.\n\nLe CV devient ainsi un autoportrait sous contrainte : une tentative d’exister dans un cadre conçu pour classer, filtrer, archiver.\n\nL’œuvre interroge ce paradoxe :\nque reste-t-il d’un individu lorsqu’il doit se raconter et se vendre dans un format destiné à l’évaluer."
+                    description: "Ce document constitue le point d’entrée de l’exposition.\nLe curriculum vitae y apparaît comme un artefact institutionnel : un format normé dans lequel l’individu tente de se raconter.\nBien que chargé de signes personnels, il demeure soumis aux codes de l’administration.\nLa singularité y est tolérée, mais contenue.\nL’œuvre interroge ce paradoxe :\nque reste-t-il d’un individu lorsqu’il doit se raconter et se vendre dans un format destiné à l’évaluer."
                 };
             case 1:
                 return {
                     artefactNumber: roomLabels[1],
-                    title: "Fais Exister Ta Marque",
-                    medium: "FILM MANIFESTE — 2026",
-                    description: "Un film manifeste sur le rôle du Community Manager. Sans mots ni logos, l'œuvre montre comment un produit brut devient désirable par le travail invisible de celui qui lui donne voix et présence.\n\nDans le contexte de l'exposition, le produit devient métaphore du candidat. Rien ne change dans la substance ; tout se joue dans la mise en scène. L'œuvre affirme que la valeur se crée par le regard et la capacité à générer une perception."
+                    title: "Fais exister ta marque",
+                    medium: "Vidéo — 2026",
+                    description: "Cette vidéo explore ce qui rend une marque présente. Construite par une succession de séquences brèves et de phrases injonctives, elle rend perceptible la fonction du Community Manager : organiser les conditions dans lesquelles un produit devient une expérience perçue. Par le rythme et la mise en scène, l’œuvre montre comment une marque s’impose dans l’attention.\nLa présence se fabrique dans des cadres qui restent invisibles."
                 };
             case 2:
                 return {
                     artefactNumber: roomLabels[2],
-                    title: "Immobile",
-                    medium: "FILM CONTEMPLATIF — 2026",
-                    description: "« The outside stands still. The inside insists. »\n\nUn homme, filmé en plongée zénithale, demeure parfaitement immobile tandis que le monde continue de se mouvoir et de le contourner. Il traverse différents environnements — administratifs, urbains, naturels — jusqu'à atteindre un espace où son immobilité cesse d'être une anomalie.\n\nDans la recherche d'emploi, l'immobilité n'est pas une absence d'effort, mais un temps suspendu où l'action ne produit plus de réponse."
+                    title: "L’IMMOBILE",
+                    medium: "Film contemplatif — 2026",
+                    description: "“The outside stands still. The inside insists.”\nUn homme demeure parfaitement immobile tandis que le monde se déplace autour de lui.\nLes environnements se succèdent — administratifs, urbains, naturels — jusqu’à ce que l’immobilité ne soit plus perçue comme une anomalie, mais comme un état.\nDans la recherche d’emploi, l’immobilité n’est pas une absence d’effort, mais un temps suspendu : un moment où l’action ne produit plus de réponse."
                 };
             case 3:
                 return {
@@ -324,7 +380,7 @@ L'action est enregistrée, puis disparaît du système sans retour.`;
                                             className="h-full"
                                         >
                                             <CartelForm
-                                                selectedChoice={formChoice}
+                                                selectedChoices={formChoices}
                                                 onEmailSubmit={handleFormSubmit}
                                                 status={formStatus}
                                             />

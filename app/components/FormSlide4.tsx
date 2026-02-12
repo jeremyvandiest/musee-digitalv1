@@ -4,12 +4,12 @@ import React, { useState } from "react";
 
 type FormSlide4Props = {
     className?: string;
-    selectedChoice: "A" | "B" | "C" | null;
+    selectedChoices: ("A" | "B" | "C")[];
     onSelectChoice: (choice: "A" | "B" | "C") => void;
     isEmailSubmitted: boolean;
 };
 
-export default function FormSlide4({ className, selectedChoice, onSelectChoice, isEmailSubmitted }: FormSlide4Props) {
+export default function FormSlide4({ className, selectedChoices, onSelectChoice, isEmailSubmitted }: FormSlide4Props) {
 
     return (
         <div className={`relative w-full h-full bg-white/5 border border-anthracite/10 flex flex-col p-4 md:p-6 overflow-hidden ${className}`}>
@@ -35,14 +35,15 @@ export default function FormSlide4({ className, selectedChoice, onSelectChoice, 
                     ].map((option) => (
                         <button
                             key={option.id}
-                            disabled={!isEmailSubmitted}
+                            disabled={!isEmailSubmitted || selectedChoices.includes(option.id as any)}
                             onClick={() => onSelectChoice(option.id as any)}
                             className={`w-full flex-1 flex items-center justify-center border rounded-[2px] font-sans text-[18px] md:text-[22px] font-serif transition-all duration-300
-                ${selectedChoice === option.id
-                                    ? "bg-anthracite text-white border-anthracite shadow-lg scale-[1.02]"
+                ${selectedChoices.includes(option.id as any)
+                                    ? "bg-anthracite text-white border-anthracite shadow-lg scale-[0.98] opacity-60"
                                     : "bg-white/40 border-anthracite/20 hover:border-cuivre hover:bg-white text-anthracite"
                                 }
                 ${!isEmailSubmitted ? "opacity-30 cursor-not-allowed grayscale" : ""}
+                ${selectedChoices.includes(option.id as any) ? "cursor-default" : ""}
               `}
                         >
                             {option.label}
@@ -56,7 +57,7 @@ export default function FormSlide4({ className, selectedChoice, onSelectChoice, 
                         Dernière activité : {new Date().toLocaleTimeString()}
                     </span>
                     <span className="font-sans text-[9px] text-cuivre">
-                        Statut : {selectedChoice ? "Signal acquis" : "En attente"}
+                        Statut : {selectedChoices.length > 0 ? `${selectedChoices.length} signal(ux) acquis` : "En attente"}
                     </span>
                 </div>
             </div>

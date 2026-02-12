@@ -14,12 +14,12 @@ import { Loader2 } from "lucide-react";
 // The buttons part is handled in FormSlide4.tsx which is used in media column.
 
 type CartelFormProps = {
-    selectedChoice: "A" | "B" | "C" | null;
+    selectedChoices: ("A" | "B" | "C")[];
     onEmailSubmit: (email: string) => Promise<void>;
     status: "IDLE" | "LOADING" | "SUCCESS" | "ERROR";
 };
 
-export default function CartelForm({ selectedChoice, onEmailSubmit, status }: CartelFormProps) {
+export default function CartelForm({ selectedChoices, onEmailSubmit, status }: CartelFormProps) {
     const [email, setEmail] = useState("");
 
     if (status === "SUCCESS") {

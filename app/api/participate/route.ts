@@ -3,7 +3,8 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { email, choice, source, createdAt } = body;
+        console.log("Incoming request to proxy:", body);
+        const { email, choice, timestamp, project, action, protocol } = body;
 
         // Validation basique
         if (!email || !email.includes("@")) {
@@ -12,27 +13,45 @@ export async function POST(request: Request) {
                 { status: 400 }
             );
         }
+        // Forward to Make.com ONLY for EXECUTE action
+        if (action === "EXECUTE") {
+            console.log(`Forwarding ${action} (${protocol}) to Make.com...`);
+            const makeResponse = await fetch("https://hook.eu2.make.com/7r3i71731rst6u6hosdmdlqji15ymxon", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email,
+                    choice,
+                    protocol,
+                    timestamp,
+                    project,
+                    action
+                }),
+            });
 
-        if (!choice || !["A", "B", "C"].includes(choice)) {
-            return NextResponse.json(
-                { success: false, message: "Choix invalide" },
-                { status: 400 }
-            );
+            console.log("Make.com response status:", makeResponse.status);
+
+            if (!makeResponse.ok) {
+                const errorText = await makeResponse.text();
+                console.error(`Make.com Error Message: ${errorText}`);
+                throw new Error(`Make.com response not ok: ${makeResponse.status}`);
+            }
+        } else {
+            console.log(`Local success for ${action} (not forwarded to Make.com)`);
         }
-
-        // Simulation d'un délai réseau/traitement
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-
-        // Ici on pourrait sauvegarder en DB
-        console.log("Participation archived:", { email, choice, source, createdAt });
 
         return NextResponse.json({
             success: true,
-            message: "Participation enregistrée",
+            message: action === "EXECUTE"
+                ? "Participation enregistrée via Make.com"
+                : "Système débloqué localement",
         });
-    } catch (error) {
+    } catch (error: any) {
+        console.error("API Route Error:", error.message || error);
         return NextResponse.json(
-            { success: false, message: "Erreur serveur" },
+            { success: false, message: error.message || "Erreur serveur lors de la transmission" },
             { status: 500 }
         );
     }
