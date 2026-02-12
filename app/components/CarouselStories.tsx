@@ -5,6 +5,8 @@ import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
 import { cn } from "../../lib/utils";
 
+import Image from "next/image";
+
 export default function CarouselStories({ className, onExpand }: { className?: string; onExpand?: (src: string) => void }) {
     const [emblaRef, emblaApi] = useEmblaCarousel({
         loop: true,
@@ -51,10 +53,13 @@ export default function CarouselStories({ className, onExpand }: { className?: s
                             key={index}
                             className="flex-[0_0_100%] min-w-0 relative flex items-center justify-center h-full"
                         >
-                            <img
+                            <Image
                                 src={src}
-                                className="w-full h-full object-contain block"
                                 alt={`Story ${index + 1}`}
+                                fill
+                                sizes="(max-width: 768px) 100vw, 560px"
+                                className="object-contain block"
+                                priority={index < 2}
                             />
                         </div>
                     ))}
