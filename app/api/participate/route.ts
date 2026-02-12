@@ -15,20 +15,22 @@ export async function POST(request: Request) {
         }
         // Forward to Make.com ONLY for EXECUTE action
         if (action === "EXECUTE") {
-            console.log(`Forwarding ${action} (${protocol}) to Make.com...`);
+            const payload = {
+                email,
+                choice,
+                protocol,
+                timestamp,
+                project,
+                action
+            };
+            console.log(`Forwarding to Make.com:`, payload);
+
             const makeResponse = await fetch("https://hook.eu2.make.com/7r3i71731rst6u6hosdmdlqji15ymxon", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({
-                    email,
-                    choice,
-                    protocol,
-                    timestamp,
-                    project,
-                    action
-                }),
+                body: JSON.stringify(payload),
             });
 
             console.log("Make.com response status:", makeResponse.status);
@@ -36,7 +38,7 @@ export async function POST(request: Request) {
             if (!makeResponse.ok) {
                 const errorText = await makeResponse.text();
                 console.error(`Make.com Error Message: ${errorText}`);
-                throw new Error(`Make.com response not ok: ${makeResponse.status}`);
+                throw new Error(`Make.com response not ok: ${makeResponse.status} - ${errorText}`);
             }
         } else {
             console.log(`Local success for ${action} (not forwarded to Make.com)`);
