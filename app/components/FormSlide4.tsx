@@ -39,11 +39,11 @@ export default function FormSlide4({ className, selectedChoices, onSelectChoice,
                             onClick={() => onSelectChoice(option.id as any)}
                             className={`w-full flex-1 flex items-center justify-center border rounded-[2px] font-sans text-[18px] md:text-[22px] font-serif transition-all duration-300
                 ${selectedChoices.includes(option.id as any)
-                                    ? "bg-anthracite text-white border-anthracite shadow-lg scale-[0.98] opacity-60"
+                                    ? "bg-anthracite/20 text-anthracite/40 border-anthracite/10 grayscale scale-[0.98]"
                                     : "bg-white/40 border-anthracite/20 hover:border-cuivre hover:bg-white text-anthracite"
                                 }
                 ${!isEmailSubmitted ? "opacity-30 cursor-not-allowed grayscale" : ""}
-                ${selectedChoices.includes(option.id as any) ? "cursor-default" : ""}
+                ${selectedChoices.includes(option.id as any) ? "cursor-default grayscale opacity-50" : ""}
               `}
                         >
                             {option.label}

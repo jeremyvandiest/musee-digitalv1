@@ -83,73 +83,58 @@ export default function Slider({ currentIndex, expandedMedia, setExpandedMedia }
         };
 
         // Each choice click sends a command to Make.com
-        try {
-            await fetch("/api/participate", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    email: submittedEmail,
-                    choice: choice,
-                    protocol: protocolMap[choice],
-                    action: "EXECUTE",
-                    timestamp: new Date().toISOString(),
-                    project: "Musée Digital"
-                }),
-            });
-        } catch (error) {
-            console.error("Choice submission error:", error);
-        }
-    };
-
-    // --- LOGIC: Video Handling ---
-    useEffect(() => {
-        videoRefs.current.forEach((video, index) => {
-            if (!video) return;
-
-            if (index === currentIndex) {
-                // Attempt play
-                const playPromise = video.play();
-                if (playPromise !== undefined) {
-                    playPromise
-                        .then(() => {
-                            setIsPlaying((prev) => {
-                                const copy = [...prev];
-                                copy[index] = true;
-                                return copy;
-                            });
-                        })
-                        .catch(() => {
-                            setIsPlaying((prev) => {
-                                const copy = [...prev];
-                                copy[index] = false;
-                                return copy;
-                            });
-                        });
-                }
-            } else {
-                video.pause();
-                setIsPlaying((prev) => {
-                    const copy = [...prev];
-                    copy[index] = false;
-                    return copy;
-                });
-            }
+        console.log("Sending execution payload to API:", {
+            email: submittedEmail,
+            choice,
+            protocol: protocolMap[choice as keyof typeof protocolMap]
         });
-    }, [currentIndex]);
 
-    const togglePlay = (index: number) => {
-        const video = videoRefs.current[index];
+        const res = await fetch("/api/participate", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: submittedEmail,
+                choice: choice,
+                protocol: protocolMap[choice as keyof typeof protocolMap],
+                action: "EXECUTE",
+                timestamp: new Date().toISOString(),
+                project: "Musée Digital"
+            }),
+        });
+        const data = await res.json();
+        console.log("API execution response:", data);
+    } catch (error) {
+        console.error("Choice submission error:", error);
+    }
+};
+
+// --- LOGIC: Video Handling ---
+useEffect(() => {
+    videoRefs.current.forEach((video, index) => {
         if (!video) return;
 
-        if (video.paused) {
-            video.play();
-            setIsPlaying((prev) => {
-                const copy = [...prev];
-                copy[index] = true;
-                return copy;
-            });
+        if (index === currentIndex) {
+            // Attempt play
+            const playPromise = video.play();
+            if (playPromise !== undefined) {
+                playPromise
+                    .then(() => {
+                        setIsPlaying((prev) => {
+                            const copy = [...prev];
+                            copy[index] = true;
+                            return copy;
+                        });
+                    })
+                    .catch(() => {
+                        setIsPlaying((prev) => {
+                            const copy = [...prev];
+                            copy[index] = false;
+                            return copy;
+                        });
+                    });
+            }
         } else {
             video.pause();
             setIsPlaying((prev) => {
@@ -158,172 +143,194 @@ export default function Slider({ currentIndex, expandedMedia, setExpandedMedia }
                 return copy;
             });
         }
-    };
+    });
+}, [currentIndex]);
 
-    const toggleMute = (index: number) => {
-        const video = videoRefs.current[index];
-        if (!video) return;
+const togglePlay = (index: number) => {
+    const video = videoRefs.current[index];
+    if (!video) return;
 
-        video.muted = !video.muted;
-        setIsMuted((prev) => {
+    if (video.paused) {
+        video.play();
+        setIsPlaying((prev) => {
             const copy = [...prev];
-            copy[index] = !copy[index];
+            copy[index] = true;
             return copy;
         });
-    };
+    } else {
+        video.pause();
+        setIsPlaying((prev) => {
+            const copy = [...prev];
+            copy[index] = false;
+            return copy;
+        });
+    }
+};
 
-    // --- DATA ---
-    const getSlideContent = (index: number) => {
-        // Wrapper styles common to media - Top aligned with tight padding
-        const mediaWrapperClass = "relative w-full h-full flex items-start justify-center p-2 pt-2 md:pt-4 overflow-hidden";
+const toggleMute = (index: number) => {
+    const video = videoRefs.current[index];
+    if (!video) return;
 
-        // Sizing: same aspect, constrained width. Added border/shadow for consistent "encadrement"
-        const mediaFrameBase = "relative w-full max-w-[500px] xl:max-w-[560px] aspect-[9/16] h-auto max-h-[calc(100vh-var(--topbar-height)-var(--bottombar-height)-60px)] transition-all duration-500 overflow-hidden";
+    video.muted = !video.muted;
+    setIsMuted((prev) => {
+        const copy = [...prev];
+        copy[index] = !copy[index];
+        return copy;
+    });
+};
 
-        switch (index) {
-            case 0: // Slide 1: CV (Image) - Oeuvre1.png
-                return (
-                    <div className={mediaWrapperClass}>
-                        {/* Clickable Image for Lightbox */}
-                        <div
-                            className={`${mediaFrameBase} flex items-center justify-center bg-transparent cursor-zoom-in group`}
-                            onClick={() => setExpandedMedia({ type: "image", src: "/Oeuvre1.png" })}
+// --- DATA ---
+const getSlideContent = (index: number) => {
+    // Wrapper styles common to media - Top aligned with tight padding
+    const mediaWrapperClass = "relative w-full h-full flex items-start justify-center p-2 pt-2 md:pt-4 overflow-hidden";
+
+    // Sizing: same aspect, constrained width. Added border/shadow for consistent "encadrement"
+    const mediaFrameBase = "relative w-full max-w-[500px] xl:max-w-[560px] aspect-[9/16] h-auto max-h-[calc(100vh-var(--topbar-height)-var(--bottombar-height)-60px)] transition-all duration-500 overflow-hidden";
+
+    switch (index) {
+        case 0: // Slide 1: CV (Image) - Oeuvre1.png
+            return (
+                <div className={mediaWrapperClass}>
+                    {/* Clickable Image for Lightbox */}
+                    <div
+                        className={`${mediaFrameBase} flex items-center justify-center bg-transparent cursor-zoom-in group`}
+                        onClick={() => setExpandedMedia({ type: "image", src: "/Oeuvre1.png" })}
+                    >
+                        <img
+                            src="/Oeuvre1.png"
+                            alt="Autoportrait Administratif"
+                            className="w-full h-full object-contain block transition-transform duration-500 group-hover:scale-[1.02]"
+                        />
+                        {/* Zoom Hint */}
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                            <span className="bg-white/80 backdrop-blur px-3 py-1 text-[10px] uppercase tracking-widest text-anthracite rounded-full shadow-sm">
+                                Agrandir
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            );
+        case 1: // Slide 2: Video 1 - Oeuvre2.mp4
+        case 2: // Slide 3: Video 2 - Oeuvre3.mp4
+        case 5: // Slide 6: ASMR - Placeholder for now
+
+            const videoSrc = index === 1 ? "/Oeuvre2.mp4" : (index === 2 ? "/Oeuvre3.mp4" : "/videos/asmr_placeholder.mp4");
+
+            return (
+                <div className={mediaWrapperClass}>
+
+                    <div className={`${mediaFrameBase} bg-transparent overflow-hidden relative`}>
+                        <video
+                            ref={(el) => { videoRefs.current[index] = el; }}
+                            className="w-full h-full object-contain block"
+                            playsInline
+                            webkit-playsinline="true"
+                            autoPlay
+                            muted
+                            loop
+                            preload={currentIndex === index ? "auto" : "metadata"}
                         >
-                            <img
-                                src="/Oeuvre1.png"
-                                alt="Autoportrait Administratif"
-                                className="w-full h-full object-contain block transition-transform duration-500 group-hover:scale-[1.02]"
-                            />
-                            {/* Zoom Hint */}
-                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
-                                <span className="bg-white/80 backdrop-blur px-3 py-1 text-[10px] uppercase tracking-widest text-anthracite rounded-full shadow-sm">
-                                    Agrandir
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                );
-            case 1: // Slide 2: Video 1 - Oeuvre2.mp4
-            case 2: // Slide 3: Video 2 - Oeuvre3.mp4
-            case 5: // Slide 6: ASMR - Placeholder for now
-
-                const videoSrc = index === 1 ? "/Oeuvre2.mp4" : (index === 2 ? "/Oeuvre3.mp4" : "/videos/asmr_placeholder.mp4");
-
-                return (
-                    <div className={mediaWrapperClass}>
-
-                        <div className={`${mediaFrameBase} bg-transparent overflow-hidden relative`}>
-                            <video
-                                ref={(el) => { videoRefs.current[index] = el; }}
-                                className="w-full h-full object-contain block"
-                                playsInline
-                                webkit-playsinline="true"
-                                autoPlay
-                                muted
-                                loop
-                                preload={currentIndex === index ? "auto" : "metadata"}
-                            >
-                                <source src={videoSrc} type="video/mp4" />
-                                Votre navigateur ne supporte pas la lecture de vidéos.
-                            </video>
-                            <VideoControls
-                                isPlaying={isPlaying[index]}
-                                isMuted={isMuted[index]}
-                                onTogglePlay={() => togglePlay(index)}
-                                onToggleMute={() => toggleMute(index)}
-                                onExpand={() => setExpandedMedia({ type: "video", src: videoSrc })}
-                            />
-                        </div>
-                    </div>
-                );
-            case 3: // Slide 4: System (Form) - SAME 9:16 FRAME
-                return (
-                    // On mobile, stick to items-center (standard). On desktop, items-start (top align).
-                    <div className={`relative w-full h-full flex ${index === 3 ? "items-start pt-0 mt-0" : "items-start pt-0"} justify-center p-2 overflow-hidden`}>
-                        {/* Pass class for consistent sizing */}
-                        <FormSlide4
-                            className={`${mediaFrameBase}`}
-                            selectedChoices={formChoices}
-                            onSelectChoice={handleChoiceSelect}
-                            isEmailSubmitted={isEmailSubmitted}
+                            <source src={videoSrc} type="video/mp4" />
+                            Votre navigateur ne supporte pas la lecture de vidéos.
+                        </video>
+                        <VideoControls
+                            isPlaying={isPlaying[index]}
+                            isMuted={isMuted[index]}
+                            onTogglePlay={() => togglePlay(index)}
+                            onToggleMute={() => toggleMute(index)}
+                            onExpand={() => setExpandedMedia({ type: "video", src: videoSrc })}
                         />
                     </div>
-                );
-            case 4: // Slide 5: Carousel
-                return (
-                    <div className={mediaWrapperClass}>
-                        {/* Pass class for consistent sizing */}
-                        <CarouselStories
-                            className={mediaFrameBase}
-                            onExpand={(src) => setExpandedMedia({ type: "image", src })}
-                        />
-                    </div>
-                );
-            default:
-                return null;
-        }
-    };
+                </div>
+            );
+        case 3: // Slide 4: System (Form) - SAME 9:16 FRAME
+            return (
+                // On mobile, stick to items-center (standard). On desktop, items-start (top align).
+                <div className={`relative w-full h-full flex ${index === 3 ? "items-start pt-0 mt-0" : "items-start pt-0"} justify-center p-2 overflow-hidden`}>
+                    {/* Pass class for consistent sizing */}
+                    <FormSlide4
+                        className={`${mediaFrameBase}`}
+                        selectedChoices={formChoices}
+                        onSelectChoice={handleChoiceSelect}
+                        isEmailSubmitted={isEmailSubmitted}
+                    />
+                </div>
+            );
+        case 4: // Slide 5: Carousel
+            return (
+                <div className={mediaWrapperClass}>
+                    {/* Pass class for consistent sizing */}
+                    <CarouselStories
+                        className={mediaFrameBase}
+                        onExpand={(src) => setExpandedMedia({ type: "image", src })}
+                    />
+                </div>
+            );
+        default:
+            return null;
+    }
+};
 
-    const roomLabels = [
-        "SALLE 01 — ADMINISTRATION",
-        "SALLE 02 — PRÉSENCE",
-        "SALLE 03 — INVISIBILITÉ",
-        "SALLE 04 — SYSTÈME",
-        "SALLE 05 — INJONCTIONS",
-        "SALLE 06 — ARCHÉOLOGIE SONORE"
-    ];
+const roomLabels = [
+    "SALLE 01 — ADMINISTRATION",
+    "SALLE 02 — PRÉSENCE",
+    "SALLE 03 — INVISIBILITÉ",
+    "SALLE 04 — SYSTÈME",
+    "SALLE 05 — INJONCTIONS",
+    "SALLE 06 — ARCHÉOLOGIE SONORE"
+];
 
-    const getCartelContent = (index: number) => {
-        switch (index) {
-            case 0:
-                return {
-                    artefactNumber: roomLabels[0],
-                    title: "Autoportrait administratif",
-                    medium: "Graphisme éditorial — 2026",
-                    description: "Ce document constitue le point d’entrée de l’exposition.\nLe curriculum vitae y apparaît comme un artefact institutionnel : un format normé dans lequel l’individu tente de se raconter.\nBien que chargé de signes personnels, il demeure soumis aux codes de l’administration.\nLa singularité y est tolérée, mais contenue.\nL’œuvre interroge ce paradoxe :\nque reste-t-il d’un individu lorsqu’il doit se raconter et se vendre dans un format destiné à l’évaluer."
-                };
-            case 1:
-                return {
-                    artefactNumber: roomLabels[1],
-                    title: "Fais exister ta marque",
-                    medium: "Vidéo — 2026",
-                    description: "Cette vidéo explore ce qui rend une marque présente. Construite par une succession de séquences brèves et de phrases injonctives, elle rend perceptible la fonction du Community Manager : organiser les conditions dans lesquelles un produit devient une expérience perçue. Par le rythme et la mise en scène, l’œuvre montre comment une marque s’impose dans l’attention.\nLa présence se fabrique dans des cadres qui restent invisibles."
-                };
-            case 2:
-                return {
-                    artefactNumber: roomLabels[2],
-                    title: "L’IMMOBILE",
-                    medium: "Film contemplatif — 2026",
-                    description: "“The outside stands still. The inside insists.”\nUn homme demeure parfaitement immobile tandis que le monde se déplace autour de lui.\nLes environnements se succèdent — administratifs, urbains, naturels — jusqu’à ce que l’immobilité ne soit plus perçue comme une anomalie, mais comme un état.\nDans la recherche d’emploi, l’immobilité n’est pas une absence d’effort, mais un temps suspendu : un moment où l’action ne produit plus de réponse."
-                };
-            case 3:
-                return {
-                    artefactNumber: roomLabels[3] + " — 1",
-                    title: "Systèmes Automatisés",
-                    medium: "INSTALLATION INTERACTIVE — 2026",
-                    description: "Vous êtes invité à participer à cette œuvre en entrant votre adresse email, puis en sélectionnant un ou plusieurs protocoles d'interactions avec le système en cours.\n\nChaque choix déclenche un traitement unique, automatisé et archivé.\n\nL’œuvre détourne l’automatisation RH pour montrer le candidat réduit à une donnée, et assume le vide comme œuvre.",
-                    hasForm: true
-                };
-            case 4:
-                return {
-                    artefactNumber: roomLabels[4],
-                    title: "Le Dogme du Succès",
-                    medium: "SÉRIE INSTAGRAM — 2026",
-                    description: "Ce carrousel détourne le format des conseils professionnels sur réseaux sociaux. Là où ce format promet des solutions claires, l'œuvre opère un renversement : elle expose sans résoudre.\n\nChaque slide se présente comme une affiche institutionnelle. Sous cette surface rassurante, le texte révèle des injonctions paradoxales adressées au candidat contemporain. L'œuvre imite et amplifie les codes jusqu'à rendre visibles leurs contradictions internes."
-                };
-            case 5:
-                return {
-                    artefactNumber: roomLabels[5],
-                    title: "ASMR du Ghosting",
-                    medium: "VIDÉO SONORE — 2026",
-                    description: "Une exploration sonore du silence institutionnel. L'œuvre documente la dimension acoustique du rituel de candidature : aligner un CV, poser les doigts sur un clavier, cliquer sur \"Envoyer\", puis attendre.\n\nLa bande-son isole les micro-événements auditifs : froissement de papier, clic de souris, scroll d'inbox vide, silence prolongé. L'ASMR devient ici un langage administratif intime. Ce que l'on entend n'est pas le silence, mais sa fabrication"
-                };
-            default:
-                return { artefactNumber: "", title: "", medium: "", description: "" };
-        }
-    };
+const getCartelContent = (index: number) => {
+    switch (index) {
+        case 0:
+            return {
+                artefactNumber: roomLabels[0],
+                title: "Autoportrait administratif",
+                medium: "Graphisme éditorial — 2026",
+                description: "Ce document constitue le point d’entrée de l’exposition.\nLe curriculum vitae y apparaît comme un artefact institutionnel : un format normé dans lequel l’individu tente de se raconter.\nBien que chargé de signes personnels, il demeure soumis aux codes de l’administration.\nLa singularité y est tolérée, mais contenue.\nL’œuvre interroge ce paradoxe :\nque reste-t-il d’un individu lorsqu’il doit se raconter et se vendre dans un format destiné à l’évaluer."
+            };
+        case 1:
+            return {
+                artefactNumber: roomLabels[1],
+                title: "Fais exister ta marque",
+                medium: "Vidéo — 2026",
+                description: "Cette vidéo explore ce qui rend une marque présente. Construite par une succession de séquences brèves et de phrases injonctives, elle rend perceptible la fonction du Community Manager : organiser les conditions dans lesquelles un produit devient une expérience perçue. Par le rythme et la mise en scène, l’œuvre montre comment une marque s’impose dans l’attention.\nLa présence se fabrique dans des cadres qui restent invisibles."
+            };
+        case 2:
+            return {
+                artefactNumber: roomLabels[2],
+                title: "L’IMMOBILE",
+                medium: "Film contemplatif — 2026",
+                description: "“The outside stands still. The inside insists.”\nUn homme demeure parfaitement immobile tandis que le monde se déplace autour de lui.\nLes environnements se succèdent — administratifs, urbains, naturels — jusqu’à ce que l’immobilité ne soit plus perçue comme une anomalie, mais comme un état.\nDans la recherche d’emploi, l’immobilité n’est pas une absence d’effort, mais un temps suspendu : un moment où l’action ne produit plus de réponse."
+            };
+        case 3:
+            return {
+                artefactNumber: roomLabels[3] + " — 1",
+                title: "Systèmes Automatisés",
+                medium: "INSTALLATION INTERACTIVE — 2026",
+                description: "Vous êtes invité à participer à cette œuvre en entrant votre adresse email, puis en sélectionnant un ou plusieurs protocoles d'interactions avec le système en cours.\n\nChaque choix déclenche un traitement unique, automatisé et archivé.\n\nL’œuvre détourne l’automatisation RH pour montrer le candidat réduit à une donnée, et assume le vide comme œuvre.",
+                hasForm: true
+            };
+        case 4:
+            return {
+                artefactNumber: roomLabels[4],
+                title: "Le Dogme du Succès",
+                medium: "SÉRIE INSTAGRAM — 2026",
+                description: "Ce carrousel détourne le format des conseils professionnels sur réseaux sociaux. Là où ce format promet des solutions claires, l'œuvre opère un renversement : elle expose sans résoudre.\n\nChaque slide se présente comme une affiche institutionnelle. Sous cette surface rassurante, le texte révèle des injonctions paradoxales adressées au candidat contemporain. L'œuvre imite et amplifie les codes jusqu'à rendre visibles leurs contradictions internes."
+            };
+        case 5:
+            return {
+                artefactNumber: roomLabels[5],
+                title: "ASMR du Ghosting",
+                medium: "VIDÉO SONORE — 2026",
+                description: "Une exploration sonore du silence institutionnel. L'œuvre documente la dimension acoustique du rituel de candidature : aligner un CV, poser les doigts sur un clavier, cliquer sur \"Envoyer\", puis attendre.\n\nLa bande-son isole les micro-événements auditifs : froissement de papier, clic de souris, scroll d'inbox vide, silence prolongé. L'ASMR devient ici un langage administratif intime. Ce que l'on entend n'est pas le silence, mais sa fabrication"
+            };
+        default:
+            return { artefactNumber: "", title: "", medium: "", description: "" };
+    }
+};
 
-    const curatorialNotice = `L'installation propose trois protocoles algorithmiques reproduisant les mécaniques du recrutement contemporain :
+const curatorialNotice = `L'installation propose trois protocoles algorithmiques reproduisant les mécaniques du recrutement contemporain :
 
 <span class="font-bold">Optimiser ma candidature</span>
 En cliquant, vous recevez un email automatisé contenant une réponse générée par IA et sans intervention humaine directe.
@@ -336,122 +343,122 @@ Une publication publique est générée et diffusée dans la minute sur le profi
 Honore le ghosting absolu : le silence. Aucune réponse. Aucun accusé de réception.
 L'action est enregistrée, puis disparaît du système sans retour.`;
 
-    const cartelData = getCartelContent(currentIndex);
+const cartelData = getCartelContent(currentIndex);
 
-    return (
-        // STANDARD SCROLL: No snap, just min-h-screen
-        <div className="relative w-full min-h-screen flex flex-col pt-[var(--topbar-height)] pb-[var(--bottombar-height)]">
+return (
+    // STANDARD SCROLL: No snap, just min-h-screen
+    <div className="relative w-full min-h-screen flex flex-col pt-[var(--topbar-height)] pb-[var(--bottombar-height)]">
 
-            {/* Main Content Area */}
-            <div className="relative flex-1 flex flex-col items-center justify-start w-full h-full">
+        {/* Main Content Area */}
+        <div className="relative flex-1 flex flex-col items-center justify-start w-full h-full">
 
-                {/* AnimatePresence for Transitions */}
-                <AnimatePresence mode="wait">
-                    <motion.div
-                        key={currentIndex}
-                        initial={{ opacity: 0, scale: 0.98 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.98 }}
-                        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                        className="flex flex-col md:flex-row w-full h-full max-w-[1200px] mx-auto gap-4 md:gap-6 lg:gap-8 items-start justify-center"
-                    >
-                        {/* Left Column: Media */}
-                        <div className={`flex-1 flex p-2 relative h-full w-full z-10 order-1 md:order-1 
+            {/* AnimatePresence for Transitions */}
+            <AnimatePresence mode="wait">
+                <motion.div
+                    key={currentIndex}
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.98 }}
+                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                    className="flex flex-col md:flex-row w-full h-full max-w-[1200px] mx-auto gap-4 md:gap-6 lg:gap-8 items-start justify-center"
+                >
+                    {/* Left Column: Media */}
+                    <div className={`flex-1 flex p-2 relative h-full w-full z-10 order-1 md:order-1 
                             ${currentIndex === 3 ? "md:max-w-[25%] items-start justify-end pt-0 mt-0" : "md:max-w-[45%] items-start justify-end pt-0"}`}>
-                            {getSlideContent(currentIndex)}
-                        </div>
+                        {getSlideContent(currentIndex)}
+                    </div>
 
-                        {/* Mobile Divider */}
-                        <div className="md:hidden w-full h-px bg-line my-0 mx-6 opacity-30 order-2" />
+                    {/* Mobile Divider */}
+                    <div className="md:hidden w-full h-px bg-line my-0 mx-6 opacity-30 order-2" />
 
-                        {/* Right Column: Cartel(s) */}
-                        <div className={`flex-1 flex p-6 md:p-10 z-10 order-3 md:order-2 w-full 
+                    {/* Right Column: Cartel(s) */}
+                    <div className={`flex-1 flex p-6 md:p-10 z-10 order-3 md:order-2 w-full 
                             ${currentIndex === 3 ? "md:max-w-[70%] items-start justify-center pt-0 mt-0" : "md:max-w-[45%] items-start justify-start pt-0"}`}>
 
-                            {currentIndex === 3 ? (
-                                <div className="flex flex-col lg:flex-row gap-6 items-stretch scale-90 lg:scale-[0.8] xl:scale-75 origin-top-left">
-                                    {/* CARTEL 1 */}
-                                    <div className="flex-shrink-0 flex">
-                                        <Cartel
-                                            artefactNumber={cartelData.artefactNumber}
-                                            title={cartelData.title}
-                                            medium={cartelData.medium}
-                                            description={cartelData.description}
-                                            className="h-full"
-                                        >
-                                            <CartelForm
-                                                selectedChoices={formChoices}
-                                                onEmailSubmit={handleFormSubmit}
-                                                status={formStatus}
-                                            />
-                                        </Cartel>
-                                    </div>
-
-                                    {/* CARTEL 2 (Curatorial Notice) */}
-                                    <div className="flex-shrink-0 flex">
-                                        <Cartel
-                                            artefactNumber={roomLabels[3] + " — 2"}
-                                            title="Systèmes Automatisés"
-                                            medium="AUTOMATISATION IA — 2026"
-                                            description={curatorialNotice}
-                                            className="h-full"
+                        {currentIndex === 3 ? (
+                            <div className="flex flex-col lg:flex-row gap-6 items-stretch scale-90 lg:scale-[0.8] xl:scale-75 origin-top-left">
+                                {/* CARTEL 1 */}
+                                <div className="flex-shrink-0 flex">
+                                    <Cartel
+                                        artefactNumber={cartelData.artefactNumber}
+                                        title={cartelData.title}
+                                        medium={cartelData.medium}
+                                        description={cartelData.description}
+                                        className="h-full"
+                                    >
+                                        <CartelForm
+                                            selectedChoices={formChoices}
+                                            onEmailSubmit={handleFormSubmit}
+                                            status={formStatus}
                                         />
-                                    </div>
+                                    </Cartel>
                                 </div>
-                            ) : (
-                                <Cartel
-                                    artefactNumber={cartelData.artefactNumber}
-                                    title={cartelData.title}
-                                    medium={cartelData.medium}
-                                    description={cartelData.description}
-                                />
-                            )}
-                        </div>
-                    </motion.div>
-                </AnimatePresence>
-            </div>
 
-            {/* LIGHTBOX OVERLAY */}
-            <AnimatePresence>
-                {expandedMedia && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[100] bg-wall/95 backdrop-blur-sm flex items-center justify-center p-4 md:p-10 cursor-zoom-out"
-                        onClick={() => setExpandedMedia(null)}
-                    >
-                        {expandedMedia.type === "image" ? (
-                            <motion.img
-                                initial={{ scale: 0.9, opacity: 0 }}
-                                animate={{ scale: 1, opacity: 1 }}
-                                exit={{ scale: 0.9, opacity: 0 }}
-                                src={expandedMedia.src}
-                                className="max-w-full max-h-full object-contain shadow-2xl"
-                            />
+                                {/* CARTEL 2 (Curatorial Notice) */}
+                                <div className="flex-shrink-0 flex">
+                                    <Cartel
+                                        artefactNumber={roomLabels[3] + " — 2"}
+                                        title="Systèmes Automatisés"
+                                        medium="AUTOMATISATION IA — 2026"
+                                        description={curatorialNotice}
+                                        className="h-full"
+                                    />
+                                </div>
+                            </div>
                         ) : (
-                            <motion.video
-                                initial={{ scale: 0.9, opacity: 0 }}
-                                animate={{ scale: 1, opacity: 1 }}
-                                exit={{ scale: 0.9, opacity: 0 }}
-                                src={expandedMedia.src}
-                                className="max-w-full max-h-full object-contain shadow-2xl"
-                                autoPlay
-                                loop
-                                controls
+                            <Cartel
+                                artefactNumber={cartelData.artefactNumber}
+                                title={cartelData.title}
+                                medium={cartelData.medium}
+                                description={cartelData.description}
                             />
                         )}
-                        <button
-                            className="absolute top-6 right-6 text-ink-2 hover:text-cuivre transition-colors"
-                            onClick={() => setExpandedMedia(null)}
-                        >
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                                <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                        </button>
-                    </motion.div>
-                )}
+                    </div>
+                </motion.div>
             </AnimatePresence>
         </div>
-    );
+
+        {/* LIGHTBOX OVERLAY */}
+        <AnimatePresence>
+            {expandedMedia && (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 z-[100] bg-wall/95 backdrop-blur-sm flex items-center justify-center p-4 md:p-10 cursor-zoom-out"
+                    onClick={() => setExpandedMedia(null)}
+                >
+                    {expandedMedia.type === "image" ? (
+                        <motion.img
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            src={expandedMedia.src}
+                            className="max-w-full max-h-full object-contain shadow-2xl"
+                        />
+                    ) : (
+                        <motion.video
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            src={expandedMedia.src}
+                            className="max-w-full max-h-full object-contain shadow-2xl"
+                            autoPlay
+                            loop
+                            controls
+                        />
+                    )}
+                    <button
+                        className="absolute top-6 right-6 text-ink-2 hover:text-cuivre transition-colors"
+                        onClick={() => setExpandedMedia(null)}
+                    >
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                            <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                    </button>
+                </motion.div>
+            )}
+        </AnimatePresence>
+    </div>
+);
 }
